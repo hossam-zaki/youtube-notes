@@ -30,7 +30,6 @@ class TranscribeAPI(Resource):
         user_id = data['userID']
         url = data['youtubeURL']
         note = data['note']
-        print(url)
 
         # finds video id
         video_id = self.parse_url(url)

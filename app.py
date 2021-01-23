@@ -7,4 +7,4 @@ api_bp = Blueprint('api', __name__)
 api = Api(api_bp)
 
 # Route
-api.add_resource(TranscribeAPI, '/register_note')
+api.add_resource(TranscribeAPI, '/register-note')

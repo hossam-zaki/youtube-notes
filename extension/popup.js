@@ -15,6 +15,8 @@ document.addEventListener(
       });
     }
 
+    const bg = chrome.extension.getBackgroundPage();
+    alert(bg.email);
     function setCount(res) {
       const div = document.createElement("div");
       div.textContent = `${res.startTime} bears`;
@@ -23,14 +25,14 @@ document.addEventListener(
       startTime = Math.max(0, time - 30);
       endTime = time + 30;
       data = {
-        userID: "",
+        userID: bg.email,
         youtubeURL: res.currentTab,
         startTime: startTime,
         endTime: endTime,
         note: "",
       };
       $.ajax({
-        url: "http://localhost:5000/api/register_note",
+        url: "http://localhost:5000/api/register-note",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json; charset=utf-8",
