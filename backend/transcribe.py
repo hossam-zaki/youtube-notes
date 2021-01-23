@@ -22,6 +22,31 @@ class TranscribeAPI(Resource):
             id = url[url.find("v")+2 : ]
         return id
 
+    #parses out the wanted note
+    def parse_video_note(self, transcript, start_time, end_time):
+        note = []
+        i = 0
+
+        #loops through all snippets
+        for i in range(len(transcript)):
+            element = transcript[i]
+            curr_start = element["start"]
+            curr_end = element["duration"] + curr_start
+
+            #pulls text from relevant snipper and builds note
+            if curr_start >= start_time:
+                while not curr_end > end_time and i < len(transcript):
+                    element = transcript[i]
+                    curr_start = element["start"]
+                    curr_end = element["duration"] + curr_start
+                    note.append(element["text"])
+                    i += 1
+
+
+            i += 1
+
+        return ". ".join(list(set(note)))
+
     #handles post request
     def post(self):
 
@@ -29,7 +54,9 @@ class TranscribeAPI(Resource):
         data = request.get_json()
         user_id = data['userID']
         url = data['youtubeURL']
-        note = data['note']
+        user_note = data['note']
+        start_time = float(data['startTime'])
+        end_time = float(data['endTime'])
 
         #pulls video title and channel name
         resp = requests.get("https://noembed.com/embed?url=https://www.youtube.com/watch?v=tn2AgrwXpNQ")
@@ -40,6 +67,9 @@ class TranscribeAPI(Resource):
         #finds video id
         video_id = self.parse_url(url)
         transcript = YouTubeTranscriptApi.get_transcript(video_id)
-        
+
+        #parses wanted note
+        video_note = self.parse_video_note(transcript, start_time, end_time)
+        print(video_note)
 
         return {"response" : "200:SUCCESS"}
