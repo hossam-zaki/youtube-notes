@@ -18,8 +18,20 @@
     <title>Document</title>
   </head>
   <body>
-    <button>Count Bears</button>
-    <script src="jquery.min.js" charset="utf-8"></script>
-    <script src="popup.js" charset="utf-8"></script>
+    <div id="mainPage">
+      <button id="snip">Snip</button>
+      <button id="settingsButton">Settings</button>
+      <script src="jquery.min.js" charset="utf-8"></script>
+      <script src="popup.js" charset="utf-8"></script>
+    </div>
+
+    <div id="settingsPage">
+      <button id="mainButton">Go Back</button>
+      <form action="http://localhost:5000/api/register-readwise" method="post">
+        <label for="readwiseToken">Readwise Token</label>
+        <input type="text" id="readwiseToken" />
+        <button type="submit">Submit Token</button>
+      </form>
+    </div>
   </body>
 </html>

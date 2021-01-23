@@ -1,13 +1,39 @@
+isSettingsShown = true;
+
 document.addEventListener(
   "DOMContentLoaded",
   function () {
+    // later fill in the latest token from the database
+    document
+      .querySelector("#settingsButton")
+      .addEventListener("click", toggleView, false);
+
+    document
+      .querySelector("#mainButton")
+      .addEventListener("click", toggleView, false);
+
+    toggleView();
+
+    function toggleView() {
+      const mainPage = document.querySelector("#mainPage");
+      const settingsPage = document.querySelector("#settingsPage");
+      if (isSettingsShown) {
+        mainPage.style.display = "block";
+        settingsPage.style.display = "none";
+      } else {
+        mainPage.style.display = "none";
+        settingsPage.style.display = "block";
+      }
+      isSettingsShown = !isSettingsShown;
+    }
+
     // const bg = chrome.extension.getBackgroundPage()
     // Object.keys(bg.bears).forEach(function (url) {
     //   const div = document.createElement('div')
     //   div.textContent = `${url}: ${bg.bears[url]}`
     //   document.body.appendChild(div)
     // })
-    document.querySelector("button").addEventListener("click", onclick, false);
+    document.querySelector("#snip").addEventListener("click", onclick, false);
 
     function onclick() {
       chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
@@ -16,7 +42,6 @@ document.addEventListener(
     }
 
     const bg = chrome.extension.getBackgroundPage();
-    alert(bg.email);
     function setCount(res) {
       const div = document.createElement("div");
       div.textContent = `${res.startTime} bears`;
