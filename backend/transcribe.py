@@ -66,7 +66,7 @@ class TranscribeAPI(Resource):
         end_time = float(data['endTime'])
 
         #pulls video title and channel name
-        resp = requests.get("https://noembed.com/embed?url=https://www.youtube.com/watch?v=tn2AgrwXpNQ")
+        resp = requests.get("https://noembed.com/embed?url=" + url.replace("https", "http"))
         resp = resp.json()
         channel_name = resp["author_name"]
         video_title = resp["title"]
@@ -86,7 +86,7 @@ class TranscribeAPI(Resource):
 
         #makes readwise request
         try:
-            requests.post(
+            res = requests.post(
             url="https://readwise.io/api/v2/highlights/",
             headers={"Authorization": "Token " + str(user_readwise_token)}, #CHECK THIS
             json={
@@ -94,7 +94,7 @@ class TranscribeAPI(Resource):
                     "text": video_note,
                     "title": video_title,
                     "author": channel_name,
-                    "source_type": "PodCast",
+                    "source_type": "podcast",
                     "location_type": "order"
                     }]
                 }
