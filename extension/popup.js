@@ -24,15 +24,15 @@ document.addEventListener(
       endTime = time + 30;
       data = {
         userID: "",
-        youtubeURL: window.location.href,
+        youtubeURL: res.currentTab,
         startTime: startTime,
         endTime: endTime,
+        note: "",
       };
-      console.log(data);
       $.ajax({
         url: "http://localhost:5000/api/register_note",
         type: "POST",
-        data: data,
+        data: JSON.stringify(data),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: true,

@@ -4,12 +4,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   video = document.getElementsByClassName("video-stream")[0];
   console.log(video);
   console.log(video.currentTime);
+  currentWindow = window.location.href;
   //   console.log(document.documentElement.innerHTML);
   //   ytplayer = document.getElementById(".html5-movie-player");
   //   alert(JSON.stringify(ytplayer));
   //   time = ytplayer.getCurrentTime();
   //   alert(time);
-  sendResponse({ startTime: video.currentTime });
+  sendResponse({ startTime: video.currentTime, currentTab: currentWindow });
 });
 
 // // document.addEventListener(
