@@ -24,12 +24,13 @@ class ReadwiseAPI(Resource):
         user_id = data['userID']
         readwise_id = data['readwiseID']
 
+        #connect to atlas
         client = MongoClient("mongodb+srv://mlunghi:snip2021@cluster0.s5i28.mongodb.net/clipSnip?retryWrites=true&w=majority")
-        #print(client.server_info())
         db = client["clipSnip"]
         col = db["readWise"]
-
         mydict = { "user_id": user_id, "readwise_id": readwise_id }
+
+        #insert user record into mongo
         col.insert_one(mydict)
 
         return {"response" : "200:SUCCESS"}
