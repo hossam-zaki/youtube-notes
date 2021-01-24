@@ -57,7 +57,7 @@ class TranscribeAPI(Resource):
             "mongodb+srv://mlunghi:snip2021@cluster0.s5i28.mongodb.net/clipSnip?retryWrites=true&w=majority")
         db = client["clipSnip"]
         col = db["users"]
-        #notes = db["notes"]
+        # notes = db["notes"]
 
         # pulls data from api request
         data = request.get_json()
@@ -119,8 +119,31 @@ class TranscribeAPI(Resource):
         except:
             print("ERROR: failed to connect to readwise")
 
-        # store the note on mongodb
-        mydict = {"user_id": user_id, "note": video_note}
+        noteData = {
+            "text": video_note,
+            "image_url": thumbnail_url,
+            "source_url": url,
+            "location": int(start_time),
+            "author": channel_name,
+            "highlighted_at": datetime.datetime.now().isoformat(),
+            "source_type": "podcast",
+            "location_type": "order"
+        }
+        # mydict = {"user_id": user_id, "note": video_note}
         # notes.insert_one(mydict)
 
+        res = col.update({"user_id": user_id},
+                         {"$push": {f"notes.{video_title}": noteData}}, upsert=True)
+
+        print(res)
         return {"response": "200:SUCCESS"}
+
+
+# {
+#     username:
+#     readwisetoken:
+#     notes: {
+#         title: [notes],
+#         title: [notes]
+#     }
+# }
