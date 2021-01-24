@@ -1,11 +1,12 @@
 
 
 {
-    "name": "bear",
+    "name": "ClipSnip",
     "version": "1.0",
     "manifest_version": 2,
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA26ZOf/WewOEYC4OtdjGgYmRAI+p+Ce79OWXqNgwl7aJUx3eVbWkid92ndO7z9nljMV8nMl47YhL8WYHJM1fYGHkO8wdDgMCzGRy7Th0xA8un9/lJezyO2FhA9A8Z87r3XSe5+4hQ2Hm0/eSNo0/xiBA94rn7kZB3FSrHPppRd7KFJC9uz2tG4nn4N3RgJuwQlvP9VFOscfL6QuIfcFP8cFNdEYg1XHX8J3CD6lyqsZLWfMg0WyzK5hEzCt95QTkVrgPSL0WsxrFFi60qhQvJPdTWay4AVFB71emyKC080sHEjk1YAe3Gv2M5lk+2+3hnX42sz4ynI7YwqIEmuZU/kQIDAQAB",
     "options_page" : "options.html",
+    
     "content_scripts": [
       {
         "matches": ["<all_urls>"],
@@ -19,7 +20,7 @@
       "scripts": ["background.js","js/jquery.min.js" ]
     },
     "browser_action": {
-        "default_title": "Bear"
+        "default_title": "ClipSnip"
       },
       "permissions": ["activeTab", "identity",
         "identity.email", "webRequestBlocking", "webRequest", "contextMenus"]

@@ -87,7 +87,8 @@ class TranscribeAPI(Resource):
 
         update = {'$set': {"user_id": user_id}}
         userDoc = col.find_one_and_update(query, update, upsert=True)
-        user_readwise_token = userDoc["readwise_id"]
+        if userDoc and "readwise_id" in userDoc:
+            user_readwise_token = userDoc["readwise_id"]
         # # pulls user readwise token
         # for user in readwise.find():
         #     if user["user_id"] == user_id:
@@ -95,7 +96,6 @@ class TranscribeAPI(Resource):
         # IF USER NOT FOUND MAKE NEW COLLECTIOn
         # makes readwise request
 
-        print(user_readwise_token)
         try:
             res = requests.post(
                 url="https://readwise.io/api/v2/highlights/",

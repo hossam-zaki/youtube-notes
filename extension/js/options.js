@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", function () {
       dataType: "json",
       async: true,
       success: async function (msg) {
-        alert("awehf");
         var div = document.createElement("div");
         div.style.position = "fixed"; /* Sit on top of the page content */
         div.style.display = "block"; /* Hidden by default */
