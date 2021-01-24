@@ -1,5 +1,6 @@
 from flask import Flask, send_from_directory
 from backend.transcribe import TranscribeAPI
+from backend.registerReadwise import ReadwiseAPI
 
 app = Flask(__name__)
 
