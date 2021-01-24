@@ -33,6 +33,29 @@ document.addEventListener(
     //   div.textContent = `${url}: ${bg.bears[url]}`
     //   document.body.appendChild(div)
     // })
+    document
+      .querySelector("#submitTokenButton")
+      .addEventListener("click", onReadwiseTokenSubmit, false);
+
+    function onReadwiseTokenSubmit() {
+      var token = document.getElementById("readwiseToken").value;
+      data = {
+        userID: bg.email,
+        readwiseID: token,
+      };
+      $.ajax({
+        url: "http://localhost:5000/api/register-readwise",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: true,
+        success: function (msg) {
+          alert(msg);
+        },
+      });
+    }
+
     document.querySelector("#snip").addEventListener("click", onclick, false);
 
     function onclick() {
