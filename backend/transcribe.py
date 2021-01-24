@@ -42,12 +42,12 @@ class TranscribeAPI(Resource):
                     element = transcript[i]
                     curr_start = element["start"]
                     curr_end = element["duration"] + curr_start
-                    note.append(element["text"])
+                    note.append(element["text"].replace("\n", " "))
                     i += 1
 
             i += 1
-
-        return ". ".join(list(set(note)))
+        print(note)
+        return " ".join(list(set(note)))
 
     # handles post request
     def post(self):
@@ -56,11 +56,12 @@ class TranscribeAPI(Resource):
         client = MongoClient(
             "mongodb+srv://mlunghi:snip2021@cluster0.s5i28.mongodb.net/clipSnip?retryWrites=true&w=majority")
         db = client["clipSnip"]
-        readwise = db["readWise"]
-        notes = db["notes"]
+        col = db["users"]
+        #notes = db["notes"]
 
         # pulls data from api request
         data = request.get_json()
+        print(data)
         user_id = data['userID']
         url = data['youtubeURL']
         user_note = data['note']
@@ -82,19 +83,18 @@ class TranscribeAPI(Resource):
         # parses wanted note
         video_note = self.parse_video_note(transcript, start_time, end_time)
 
-        # pulls user readwise token
-        for user in readwise.find():
-            if user["user_id"] == user_id:
-                user_readwise_token = user["readwise_id"]
+        query = {"user_id": user_id}
+
+        update = {'$set': {"user_id": user_id}}
+        userDoc = col.find_one_and_update(query, update, upsert=True)
+        user_readwise_token = userDoc["readwise_id"]
+        # # pulls user readwise token
+        # for user in readwise.find():
+        #     if user["user_id"] == user_id:
+        #         user_readwise_token = user["readwise_id"]
         # IF USER NOT FOUND MAKE NEW COLLECTIOn
-        print({
-            "text": video_note,
-            "title": video_title,
-            "author": channel_name,
-            "source_type": "podcast",
-            "location_type": "order"
-        })
         # makes readwise request
+
         print(user_readwise_token)
         try:
             res = requests.post(
@@ -121,6 +121,6 @@ class TranscribeAPI(Resource):
 
         # store the note on mongodb
         mydict = {"user_id": user_id, "note": video_note}
-        notes.insert_one(mydict)
+        # notes.insert_one(mydict)
 
         return {"response": "200:SUCCESS"}

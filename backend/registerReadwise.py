@@ -28,7 +28,7 @@ class ReadwiseAPI(Resource):
         client = MongoClient(
             "mongodb+srv://mlunghi:snip2021@cluster0.s5i28.mongodb.net/clipSnip?retryWrites=true&w=majority")
         db = client["clipSnip"]
-        col = db["readWise"]
+        col = db["users"]
 
         query = {"user_id": user_id}
         update = {'$set': {'readwise_id': readwise_id, "user_id": user_id}}
